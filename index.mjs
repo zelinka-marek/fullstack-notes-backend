@@ -29,6 +29,17 @@ function generateNoteId() {
 const app = express();
 app.use(express.json());
 
+function requestLogger(request, _response, next) {
+  console.log("Method:", request.method);
+  console.log("Path:", request.path);
+  console.log("Body:", request.body);
+  console.log("---");
+
+  next();
+}
+
+app.use(requestLogger);
+
 app.get("/", (_request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
@@ -74,5 +85,11 @@ app.post("/api/notes", (request, response) => {
 
   response.status(201).json(note);
 });
+
+function unknownEndpoint(_request, response) {
+  response.status(404).end();
+}
+
+app.use(unknownEndpoint);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
