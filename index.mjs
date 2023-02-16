@@ -21,6 +21,7 @@ let notes = [
 ];
 
 const app = express();
+app.use(express.json());
 
 app.get("/", (_request, response) => {
   response.send("<h1>Hello World!</h1>");
@@ -47,6 +48,13 @@ app.delete("/api/notes/:id", (request, response) => {
   notes = notes.filter((note) => note.id !== Number(id));
 
   response.status(204).end();
+});
+
+app.post("/api/notes", (request, response) => {
+  const note = request.body;
+  console.log(note);
+
+  response.json(note);
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
