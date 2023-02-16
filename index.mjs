@@ -41,4 +41,12 @@ app.get("/api/notes/:id", (request, response) => {
   response.json(note);
 });
 
+app.delete("/api/notes/:id", (request, response) => {
+  const { id } = request.params;
+
+  notes = notes.filter((note) => note.id !== Number(id));
+
+  response.status(204).end();
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
