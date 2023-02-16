@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 
 const port = 3001;
@@ -27,6 +28,7 @@ function generateNoteId() {
 }
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 function requestLogger(request, _response, next) {
