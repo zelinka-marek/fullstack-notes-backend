@@ -20,6 +20,12 @@ let notes = [
   },
 ];
 
+function generateNoteId() {
+  const maxId = notes.length ? Math.max(...notes.map((note) => note.id)) : 0;
+
+  return maxId + 1;
+}
+
 const app = express();
 app.use(express.json());
 
@@ -51,10 +57,22 @@ app.delete("/api/notes/:id", (request, response) => {
 });
 
 app.post("/api/notes", (request, response) => {
-  const note = request.body;
-  console.log(note);
+  const data = request.body;
+  if (!data.content) {
+    return response.status(400).json({
+      error: "content missing",
+    });
+  }
 
-  response.json(note);
+  const note = {
+    id: generateNoteId(),
+    content: data.content,
+    important: data.important ?? false,
+  };
+
+  notes = notes.concat(note);
+
+  response.status(201).json(note);
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
