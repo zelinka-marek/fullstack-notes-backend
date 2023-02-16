@@ -1,4 +1,4 @@
-import { createServer } from "http";
+import express from "express";
 
 const port = 3001;
 
@@ -20,9 +20,14 @@ let notes = [
   },
 ];
 
-const app = createServer((request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(notes));
+const app = express();
+
+app.get("/", (_request, response) => {
+  response.send("<h1>Hello World!</h1>");
+});
+
+app.get("/api/notes", (_request, response) => {
+  response.json(notes);
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
