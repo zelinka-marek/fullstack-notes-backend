@@ -30,4 +30,15 @@ app.get("/api/notes", (_request, response) => {
   response.json(notes);
 });
 
+app.get("/api/notes/:id", (request, response) => {
+  const { id } = request.params;
+
+  const note = notes.find((note) => note.id === Number(id));
+  if (!note) {
+    return response.status(404).end();
+  }
+
+  response.json(note);
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
