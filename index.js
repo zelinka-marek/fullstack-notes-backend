@@ -65,6 +65,21 @@ app.post("/api/notes", (request, response) => {
   note.save().then((savedNote) => {
     response.status(201).json(savedNote);
   });
+
+app.put("/api/notes/:id", (request, response, next) => {
+  const { id } = request.params;
+  const data = request.body;
+
+  const note = {
+    content: data.content,
+    important: data.important,
+  };
+
+  Note.findByIdAndUpdate(id, note, { new: true })
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch(next);
 });
 
 function unknownEndpoint(_request, response) {
