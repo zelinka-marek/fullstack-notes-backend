@@ -23,8 +23,12 @@ function requestLogger(request, _response, next) {
 
 app.use(requestLogger);
 
-app.get("/api/notes", (_request, response) => {
-  Note.find().then((notes) => response.json(notes));
+app.get("/api/notes", (_request, response, next) => {
+  Note.find()
+    .then((notes) => {
+      response.json(notes);
+    })
+    .catch(next);
 });
 
 app.get("/api/notes/:id", (request, response, next) => {
@@ -41,16 +45,19 @@ app.get("/api/notes/:id", (request, response, next) => {
     .catch(next);
 });
 
-app.delete("/api/notes/:id", (request, response) => {
+app.delete("/api/notes/:id", (request, response, next) => {
   const { id } = request.params;
 
-  Note.findByIdAndDelete(id).then(() => {
-    response.status(204).end();
-  });
+  Note.findByIdAndDelete(id)
+    .then(() => {
+      response.status(204).end();
+    })
+    .catch(next);
 });
 
-app.post("/api/notes", (request, response) => {
+app.post("/api/notes", (request, response, next) => {
   const data = request.body;
+
   if (!data.content) {
     return response.status(400).json({
       error: "content missing",
@@ -62,9 +69,13 @@ app.post("/api/notes", (request, response) => {
     important: data.important ?? false,
   });
 
-  note.save().then((savedNote) => {
-    response.status(201).json(savedNote);
-  });
+  note
+    .save()
+    .then((savedNote) => {
+      response.status(201).json(savedNote);
+    })
+    .catch(next);
+});
 
 app.put("/api/notes/:id", (request, response, next) => {
   const { id } = request.params;
