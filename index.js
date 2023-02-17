@@ -1,7 +1,10 @@
 import cors from "cors";
 import express from "express";
 
-const port = process.env.PORT ?? 3001;
+const port = process.env.PORT;
+if (!port) {
+  throw new Error("PORT must be set");
+}
 
 let notes = [
   {

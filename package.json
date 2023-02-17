@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
+    "start": "node -r dotenv/config index.js",
+    "dev": "node -r dotenv/config --watch index.js",
     "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
@@ -15,6 +15,7 @@
   "prettier": {},
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.9.2"
   }
