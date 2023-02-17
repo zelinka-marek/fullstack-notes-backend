@@ -54,12 +54,9 @@ app.get("/api/notes", (_request, response) => {
 app.get("/api/notes/:id", (request, response) => {
   const { id } = request.params;
 
-  const note = notes.find((note) => note.id === Number(id));
-  if (!note) {
-    return response.status(404).end();
-  }
-
-  response.json(note);
+  Note.findById(id).then((note) => {
+    response.json(note);
+  });
 });
 
 app.delete("/api/notes/:id", (request, response) => {
@@ -78,15 +75,14 @@ app.post("/api/notes", (request, response) => {
     });
   }
 
-  const note = {
-    id: generateNoteId(),
+  const note = new Note({
     content: data.content,
     important: data.important ?? false,
-  };
+  });
 
-  notes = notes.concat(note);
-
-  response.status(201).json(note);
+  note.save().then((savedNote) => {
+    response.status(201).json(savedNote);
+  });
 });
 
 function unknownEndpoint(_request, response) {
