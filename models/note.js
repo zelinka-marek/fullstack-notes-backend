@@ -12,7 +12,6 @@ mongoose
   .catch((error) => console.error("error connecting to db:", error.message));
 
 mongoose.set("strictQuery", false);
-
 mongoose.set("toJSON", {
   transform: (_document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
