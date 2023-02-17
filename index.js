@@ -7,30 +7,6 @@ if (!port) {
   throw new Error("PORT must be set");
 }
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
-
-function generateNoteId() {
-  const maxId = notes.length ? Math.max(...notes.map((note) => note.id)) : 0;
-
-  return maxId + 1;
-}
-
 const app = express();
 app.use(cors());
 app.use(express.json());
