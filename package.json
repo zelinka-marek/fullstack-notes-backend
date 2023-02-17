@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.mjs",
-    "dev": "node --watch index.mjs",
+    "start": "node index.js",
+    "dev": "node --watch index.js",
     "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
