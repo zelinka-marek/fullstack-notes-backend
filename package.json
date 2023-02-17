@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node index.mjs",
     "dev": "node --watch index.mjs",
+    "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
+    "deploy": "flyctl deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "flyctl logs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prettier": {},
