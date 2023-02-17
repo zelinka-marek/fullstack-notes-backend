@@ -9,8 +9,8 @@ if (!port) {
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 app.use(express.static("dist"));
+app.use(express.json());
 
 function requestLogger(request, _response, next) {
   console.log("Method:", request.method);
@@ -27,12 +27,18 @@ app.get("/api/notes", (_request, response) => {
   Note.find().then((notes) => response.json(notes));
 });
 
-app.get("/api/notes/:id", (request, response) => {
+app.get("/api/notes/:id", (request, response, next) => {
   const { id } = request.params;
 
-  Note.findById(id).then((note) => {
-    response.json(note);
-  });
+  Note.findById(id)
+    .then((note) => {
+      if (!note) {
+        return response.status(404).end();
+      }
+
+      response.json(note);
+    })
+    .catch(next);
 });
 
 app.delete("/api/notes/:id", (request, response) => {
@@ -66,5 +72,17 @@ function unknownEndpoint(_request, response) {
 }
 
 app.use(unknownEndpoint);
+
+function errorHandler(error, _request, response, next) {
+  console.error(error);
+
+  if (error.name === "CastError") {
+    return response.status(400).json({ error: "malformatted id" });
+  }
+
+  next(error);
+}
+
+app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
