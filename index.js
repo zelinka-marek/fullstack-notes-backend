@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { Note } from "./models/note.js";
 
 const port = process.env.PORT;
 if (!port) {
@@ -47,7 +48,7 @@ function requestLogger(request, _response, next) {
 app.use(requestLogger);
 
 app.get("/api/notes", (_request, response) => {
-  response.json(notes);
+  Note.find().then((notes) => response.json(notes));
 });
 
 app.get("/api/notes/:id", (request, response) => {
