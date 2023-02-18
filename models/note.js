@@ -27,6 +27,7 @@ const noteSchema = new mongoose.Schema({
     required: [true, "Content is required"],
     trim: true,
   },
+  date: { type: Date, default: new Date() },
   important: Boolean,
 });
 
