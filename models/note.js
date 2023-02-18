@@ -21,7 +21,12 @@ mongoose.set("toJSON", {
 });
 
 const noteSchema = new mongoose.Schema({
-  content: String,
+  content: {
+    type: String,
+    minLength: [5, "Content must be at least 5 characters long"],
+    required: [true, "Content is required"],
+    trim: true,
+  },
   important: Boolean,
 });
 
