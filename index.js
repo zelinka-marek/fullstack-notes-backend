@@ -83,11 +83,10 @@ app.delete("/api/notes/:id", (request, response, next) => {
 });
 
 app.put("/api/notes/:id", (request, response, next) => {
-  const { id } = request.params;
   const data = request.body;
 
   Note.findByIdAndUpdate(
-    id,
+    request.params.id,
     { content: data.content, important: data.important },
     { new: true, runValidators: true }
   )

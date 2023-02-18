@@ -10,7 +10,8 @@
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "flyctl logs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "prettier": {},
   "dependencies": {
@@ -20,6 +21,7 @@
     "mongoose": "^6.9.2"
   },
   "devDependencies": {
+    "eslint": "^8.34.0",
     "nodemon": "^2.0.20"
   }
 }
