@@ -3,40 +3,52 @@ import { Note } from "../models/note.js";
 
 export const notesRouter = express.Router();
 
-notesRouter.get("/", (_request, response, next) => {
-  Note.find()
-    .then((notes) => response.json(notes))
-    .catch(next);
+notesRouter.get("/", async (_request, response, next) => {
+  try {
+    const notes = await Note.find();
+
+    response.json(notes);
+  } catch (error) {
+    next(error);
+  }
 });
 
-notesRouter.get("/:id", (request, response, next) => {
-  Note.findById(request.params.id)
-    .then((note) => {
-      if (!note) {
-        return response.status(404).end();
-      }
+notesRouter.get("/:id", async (request, response, next) => {
+  try {
+    const note = await Note.findById(request.params.id);
+    if (!note) {
+      return response.status(404).end();
+    }
 
-      response.json(note);
-    })
-    .catch(next);
+    response.json(note);
+  } catch (error) {
+    next(error);
+  }
 });
 
-notesRouter.post("/", (request, response, next) => {
-  const data = request.body;
+notesRouter.post("/", async (request, response, next) => {
+  try {
+    const data = request.body;
 
-  new Note({
-    content: data.content,
-    important: data.important ?? false,
-  })
-    .save()
-    .then((savedNote) => response.status(201).json(savedNote))
-    .catch(next);
+    const note = new Note({
+      content: data.content,
+      important: data.important ?? false,
+    });
+    const savedNote = await note.save();
+
+    response.status(201).json(savedNote);
+  } catch (error) {
+    next(error);
+  }
 });
 
-notesRouter.delete("/:id", (request, response, next) => {
-  Note.findByIdAndDelete(request.params.id)
-    .then(() => response.status(204).end())
-    .catch(next);
+notesRouter.delete("/:id", async (request, response, next) => {
+  try {
+    await Note.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 notesRouter.put("/:id", (request, response, next) => {
