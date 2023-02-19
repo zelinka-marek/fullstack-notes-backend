@@ -4,18 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node -r dotenv/config src/index.js",
-    "dev": "nodemon -r dotenv/config src/index.js",
+    "start": "cross-env NODE_ENV=production node -r dotenv/config src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config src/index.js",
     "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "flyctl logs",
     "lint": "eslint .",
-    "test": "vitest"
+    "test": "cross-env NODE_ENV=test vitest"
   },
   "prettier": {},
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.9.2"
