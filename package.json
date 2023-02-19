@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node -r dotenv/config src/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
     "deploy": "flyctl deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "eslint": "^8.34.0",
     "nodemon": "^2.0.20",
+    "supertest": "^6.3.3",
     "vitest": "^0.28.5"
   }
 }
