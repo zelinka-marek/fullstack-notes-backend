@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import "express-async-errors";
 import mongoose from "mongoose";
 import { notesRouter } from "./routes/notes.js";
 import { MONGODB_URI } from "./utils/config.js";

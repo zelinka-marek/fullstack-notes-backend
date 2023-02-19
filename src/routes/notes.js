@@ -3,62 +3,45 @@ import { Note } from "../models/note.js";
 
 export const notesRouter = express.Router();
 
-notesRouter.get("/", async (_request, response, next) => {
-  try {
-    const notes = await Note.find();
+notesRouter.get("/", async (_request, response) => {
+  const notes = await Note.find();
 
-    response.json(notes);
-  } catch (error) {
-    next(error);
-  }
+  response.json(notes);
 });
 
-notesRouter.get("/:id", async (request, response, next) => {
-  try {
-    const note = await Note.findById(request.params.id);
-    if (!note) {
-      return response.status(404).end();
-    }
-
-    response.json(note);
-  } catch (error) {
-    next(error);
+notesRouter.get("/:id", async (request, response) => {
+  const note = await Note.findById(request.params.id);
+  if (!note) {
+    return response.status(404).end();
   }
+
+  response.json(note);
 });
 
-notesRouter.post("/", async (request, response, next) => {
-  try {
-    const data = request.body;
+notesRouter.post("/", async (request, response) => {
+  const data = request.body;
 
-    const note = new Note({
-      content: data.content,
-      important: data.important ?? false,
-    });
-    const savedNote = await note.save();
+  const note = new Note({
+    content: data.content,
+    important: data.important ?? false,
+  });
+  const savedNote = await note.save();
 
-    response.status(201).json(savedNote);
-  } catch (error) {
-    next(error);
-  }
+  response.status(201).json(savedNote);
 });
 
-notesRouter.delete("/:id", async (request, response, next) => {
-  try {
-    await Note.findByIdAndDelete(request.params.id);
-    response.status(204).end();
-  } catch (error) {
-    next(error);
-  }
+notesRouter.delete("/:id", async (request, response) => {
+  await Note.findByIdAndDelete(request.params.id);
+
+  response.status(204).end();
 });
 
-notesRouter.put("/:id", (request, response, next) => {
+notesRouter.put("/:id", (request, response) => {
   const data = request.body;
 
   Note.findByIdAndUpdate(
     request.params.id,
     { content: data.content, important: data.important },
     { new: true, runValidators: true }
-  )
-    .then((updatedNote) => response.json(updatedNote))
-    .catch(next);
+  ).then((updatedNote) => response.json(updatedNote));
 });
