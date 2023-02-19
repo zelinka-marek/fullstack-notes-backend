@@ -8,7 +8,7 @@ const noteSchema = new mongoose.Schema({
     trim: true,
   },
   date: { type: Date, default: new Date() },
-  important: Boolean,
+  important: { type: Boolean, default: false },
 });
 
 export const Note = mongoose.model("Note", noteSchema);
