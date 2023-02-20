@@ -17,5 +17,5 @@ export async function getNonExistingNoteId() {
 export async function getNotesFromDatabase() {
   const notes = await Note.find();
 
-  return notes.map((note) => JSON.parse(JSON.stringify(note.toJSON())));
+  return notes.map((note) => JSON.parse(JSON.stringify(note)));
 }
