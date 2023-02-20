@@ -16,7 +16,7 @@ beforeEach(async () => {
   await Note.insertMany(initialNotes);
 });
 
-describe("when there are initially some notes save", () => {
+describe("when there are initially some notes saved", () => {
   test("notes are returned as json", async () => {
     const response = await api.get("/api/notes");
     expect(response.status).toBe(200);
@@ -60,7 +60,7 @@ describe("when there are initially some notes save", () => {
     });
   });
 
-  describe("addition of a new note", () => {
+  describe("adding a new note", () => {
     test("succeeds with valid data", async () => {
       const validNote = {
         content: "async/await simplifies making async calls",
@@ -89,7 +89,7 @@ describe("when there are initially some notes save", () => {
     });
   });
 
-  describe("deletion of a new note", () => {
+  describe("deleting a specific note", () => {
     test("succeeds with status 204 if id is valid", async () => {
       const notesAtStart = await getNotesFromDatabase();
       const noteToDelete = notesAtStart[0];
@@ -98,7 +98,7 @@ describe("when there are initially some notes save", () => {
       expect(response.status).toBe(204);
 
       const notesAtEnd = await getNotesFromDatabase();
-      expect(notesAtEnd).toHaveLength(initialNotes.length - 1);
+      expect(notesAtEnd).toHaveLength(notesAtStart.length - 1);
 
       const contents = notesAtEnd.map((note) => note.content);
       expect(contents).not.toContainEqual(noteToDelete.content);
