@@ -26,7 +26,7 @@ test("all notes are returned", async () => {
 test("a specific note is within the returned notes", async () => {
   const response = await api.get("/api/notes");
   const contents = response.body.map((note) => note.content);
-  expect(contents).toContain(initialNotes[1].content);
+  expect(contents).toContainEqual(initialNotes[1].content);
 });
 
 test("a valid note can be added", async () => {
@@ -42,7 +42,7 @@ test("a valid note can be added", async () => {
   const notesAtEnd = await getNotesFromDatabase();
   expect(notesAtEnd).toHaveLength(initialNotes.length + 1);
   const contents = notesAtEnd.map((note) => note.content);
-  expect(contents).toContain(validNote.content);
+  expect(contents).toContainEqual(validNote.content);
 });
 
 test("note without content is not added", async () => {
@@ -62,7 +62,7 @@ test("a specific note can be viewed", async () => {
   const response = await api.get(`/api/notes/${noteToView.id}`);
   expect(response.status).toBe(200);
   expect(response.headers["content-type"]).toMatch(/application\/json/);
-  expect(response.body).toEqual(noteToView);
+  expect(response.body).toStrictEqual(noteToView);
 });
 
 test("a note can be deleted", async () => {
@@ -75,7 +75,7 @@ test("a note can be deleted", async () => {
   const notesAtEnd = await getNotesFromDatabase();
   expect(notesAtEnd).toHaveLength(initialNotes.length - 1);
   const contents = notesAtEnd.map((note) => note.content);
-  expect(contents).not.toContain(noteToDelete.content);
+  expect(contents).not.toContainEqual(noteToDelete.content);
 });
 
 afterAll(() => {
