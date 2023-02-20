@@ -9,6 +9,7 @@ const noteSchema = new mongoose.Schema({
   },
   date: { type: Date, default: new Date() },
   important: { type: Boolean, default: false },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 export const Note = mongoose.model("Note", noteSchema);
