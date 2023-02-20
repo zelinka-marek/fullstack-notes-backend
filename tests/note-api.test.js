@@ -7,7 +7,7 @@ import {
   getNonExistingNoteId,
   getNotesFromDatabase,
   initialNotes,
-} from "./test-helpers.js";
+} from "./note-api-helpers.js";
 
 const api = supertest(app);
 
