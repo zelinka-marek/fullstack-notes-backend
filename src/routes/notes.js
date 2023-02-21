@@ -21,13 +21,12 @@ notesRouter.get("/:id", async (request, response) => {
 notesRouter.post("/", async (request, response) => {
   const data = request.body;
 
-  const note = new Note({
+  const note = await new Note({
     content: data.content,
     important: data.important ?? false,
-  });
-  const savedNote = await note.save();
+  }).save();
 
-  response.status(201).json(savedNote);
+  response.status(201).json(note);
 });
 
 notesRouter.delete("/:id", async (request, response) => {
