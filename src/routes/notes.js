@@ -1,5 +1,6 @@
 import express from "express";
 import { Note } from "../models/note.js";
+import { User } from "../models/user.js";
 
 export const notesRouter = express.Router();
 
@@ -21,10 +22,16 @@ notesRouter.get("/:id", async (request, response) => {
 notesRouter.post("/", async (request, response) => {
   const data = request.body;
 
+  const user = await User.findById(data.userId);
+
   const note = await new Note({
     content: data.content,
     important: data.important ?? false,
+    user: user.id,
   }).save();
+
+  user.notes = user.notes.concat(note._id);
+  await user.save();
 
   response.status(201).json(note);
 });
