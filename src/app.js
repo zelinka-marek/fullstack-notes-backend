@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import "express-async-errors";
 import mongoose from "mongoose";
+import { loginRouter } from "./routes/login.js";
 import { notesRouter } from "./routes/notes.js";
 import { usersRouter } from "./routes/users.js";
 import { MONGODB_URI } from "./utils/config.js";
@@ -28,6 +29,7 @@ app.use(requestLogger);
 
 app.use("/api/notes", notesRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 app.use(unknownEndpoint);
 app.use(errorHandler);

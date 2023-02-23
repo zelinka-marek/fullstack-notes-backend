@@ -7,6 +7,11 @@ if (!PORT) {
   throw new Error("PORT must be set");
 }
 
+export const SECRET = process.env.SECRET;
+if (!SECRET) {
+  throw new Error("SECRET must be set");
+}
+
 export const TEST_MONGODB_URI = process.env.TEST_MONGODB_URI;
 if (process.env.NODE_ENV === "test" && !TEST_MONGODB_URI) {
   throw new Error("TEST_MONGODB_URI must be set");
