@@ -13,13 +13,6 @@ import {
 } from "./utils/middleware.js";
 
 mongoose.set("strictQuery", false);
-mongoose.set("toJSON", {
-  transform: (_document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
 
 logInfo("connecting to db", MONGODB_URI);
 mongoose
