@@ -1,6 +1,8 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import { Note } from "../models/note.js";
 import { User } from "../models/user.js";
+import { SECRET } from "../utils/config.js";
 
 export const notesRouter = express.Router();
 
@@ -22,7 +24,12 @@ notesRouter.get("/:id", async (request, response) => {
 notesRouter.post("/", async (request, response) => {
   const data = request.body;
 
-  const user = await User.findById(data.userId);
+  const decodedToken = jwt.verify(request.token, SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "invalid token" });
+  }
+
+  const user = await User.findById(decodedToken.id);
 
   const note = await new Note({
     content: data.content,

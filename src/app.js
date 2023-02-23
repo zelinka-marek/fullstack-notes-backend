@@ -10,6 +10,7 @@ import { logError, logInfo } from "./utils/logger.js";
 import {
   errorHandler,
   requestLogger,
+  setAuthToken,
   unknownEndpoint,
 } from "./utils/middleware.js";
 
@@ -26,6 +27,7 @@ app.use(cors());
 app.use(express.static("dist"));
 app.use(express.json());
 app.use(requestLogger);
+app.use(setAuthToken);
 
 app.use("/api/notes", notesRouter);
 app.use("/api/users", usersRouter);
