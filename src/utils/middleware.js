@@ -35,13 +35,11 @@ export function errorHandler(error, _request, response, next) {
   next(error);
 }
 
-export function setAuthToken(request, _response, next) {
+export function tokenExtractor(request, _response, next) {
   const authorization = request.get("authorization");
-  if (!authorization || !authorization.match(/bearer/i)) {
-    request.token = null;
-  }
+  const token = authorization?.match(/^bearer (.+)$/i).at(1) ?? null;
 
-  request.token = authorization.split(" ").at(1);
+  request.token = token;
 
   next();
 }
