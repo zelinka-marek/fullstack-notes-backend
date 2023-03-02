@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "cross-env NODE_ENV=production node src/index.js",
+    "start:test": "cross-env NODE_ENV=test node src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "build:ui": "del dist /f/q && cd ../fullstack-notes && npm run build && xcopy dist \"../fullstack-notes-backend/dist\" /e/y",
     "deploy": "flyctl deploy",
