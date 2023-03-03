@@ -32,6 +32,10 @@ app.use(tokenExtractor);
 app.use("/api/notes", notesRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+if (process.env.NODE_ENV === "test") {
+  const { testingRouter } = await import("./routes/testing.js");
+  app.use("/api/testing", testingRouter);
+}
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
