@@ -3,8 +3,8 @@ import express from "express";
 import "express-async-errors";
 import mongoose from "mongoose";
 import { loginRouter } from "./routes/login.js";
-import { notesRouter } from "./routes/notes.js";
-import { usersRouter } from "./routes/users.js";
+import { noteRouter } from "./routes/notes.js";
+import { userRouter } from "./routes/users.js";
 import { MONGODB_URI } from "./utils/config.js";
 import { logError, logInfo } from "./utils/logger.js";
 import {
@@ -29,12 +29,12 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(tokenExtractor);
 
-app.use("/api/notes", notesRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/notes", noteRouter);
+app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
 if (process.env.NODE_ENV === "test") {
-  const { testingRouter } = await import("./routes/testing.js");
-  app.use("/api/testing", testingRouter);
+  const { testRouter } = await import("./routes/testing.js");
+  app.use("/api/testing", testRouter);
 }
 
 app.use(unknownEndpoint);

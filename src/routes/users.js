@@ -2,9 +2,9 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { User } from "../models/user.js";
 
-export const usersRouter = express.Router();
+export const userRouter = express.Router();
 
-usersRouter.get("/", async (_request, response) => {
+userRouter.get("/", async (_request, response) => {
   const users = await User.find().populate("notes", {
     content: 1,
     important: 1,
@@ -13,7 +13,7 @@ usersRouter.get("/", async (_request, response) => {
   response.json(users);
 });
 
-usersRouter.post("/", async (request, response) => {
+userRouter.post("/", async (request, response) => {
   const data = request.body;
 
   const saltRounds = 10;

@@ -4,15 +4,15 @@ import { Note } from "../models/note.js";
 import { User } from "../models/user.js";
 import { SECRET } from "../utils/config.js";
 
-export const notesRouter = express.Router();
+export const noteRouter = express.Router();
 
-notesRouter.get("/", async (_request, response) => {
+noteRouter.get("/", async (_request, response) => {
   const notes = await Note.find({}).populate("user", { username: 1, name: 1 });
 
   response.json(notes);
 });
 
-notesRouter.get("/:id", async (request, response) => {
+noteRouter.get("/:id", async (request, response) => {
   const note = await Note.findById(request.params.id);
   if (!note) {
     return response.status(404).end();
@@ -21,7 +21,7 @@ notesRouter.get("/:id", async (request, response) => {
   response.json(note);
 });
 
-notesRouter.post("/", async (request, response) => {
+noteRouter.post("/", async (request, response) => {
   const data = request.body;
 
   const decodedToken = jwt.verify(request.token, SECRET);
@@ -43,13 +43,13 @@ notesRouter.post("/", async (request, response) => {
   response.status(201).json(note);
 });
 
-notesRouter.delete("/:id", async (request, response) => {
+noteRouter.delete("/:id", async (request, response) => {
   await Note.findByIdAndDelete(request.params.id);
 
   response.status(204).end();
 });
 
-notesRouter.put("/:id", (request, response) => {
+noteRouter.put("/:id", (request, response) => {
   const data = request.body;
 
   Note.findByIdAndUpdate(
